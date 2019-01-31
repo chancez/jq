@@ -1,4 +1,4 @@
-%{?_with_scl: %global scl 1}
+%{?with_scl: %global scl 1}
 
 %if ! 0%{?el7}
 %global scl 1
@@ -15,6 +15,7 @@ Source0:        https://github.com/stedolan/jq/releases/download/%{name}-%{versi
 
 BuildRequires:  autoconf
 BuildRequires:  automake
+BuildRequires:  git
 BuildRequires:  libtool
 BuildRequires:  gcc
 BuildRequires:  flex
