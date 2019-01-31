@@ -1,3 +1,9 @@
+%{?_with_scl: %global scl 1}
+
+%if ! 0%{?el7}
+%global scl 1
+%endif
+
 Name:           jq
 Version:        1.6
 Release:        2%{?dist}
@@ -7,10 +13,17 @@ License:        MIT and ASL 2.0 and CC-BY and GPLv3
 URL:            http://stedolan.github.io/jq/
 Source0:        https://github.com/stedolan/jq/releases/download/%{name}-%{version}/%{name}-%{version}.tar.gz
 
+BuildRequires:  autoconf
+BuildRequires:  automake
+BuildRequires:  libtool
 BuildRequires:  gcc
 BuildRequires:  flex
 BuildRequires:  bison
 BuildRequires:  oniguruma-devel
+
+%if ! 0%{?scl}
+BuildRequires: autotools-latest
+%endif
 
 %ifnarch s390x
 BuildRequires:  valgrind
@@ -45,7 +58,11 @@ Development files for %{name}
 %setup -qn %{name}-%{version}
 
 %build
+%if ! 0%{?scl}
+scl enable autotools-latest 'autoreconf -fi'
+%else
 autoreconf -fi
+%endif
 %configure --disable-static
 make %{?_smp_mflags}
 # Docs already shipped in jq's tarball.
