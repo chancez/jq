@@ -45,6 +45,7 @@ Development files for %{name}
 %setup -qn %{name}-%{version}
 
 %build
+autoreconf -fi
 %configure --disable-static
 make %{?_smp_mflags}
 # Docs already shipped in jq's tarball.
